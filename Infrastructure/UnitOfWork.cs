@@ -6,6 +6,7 @@ namespace Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
+        //Dependency injection
         private readonly DBContext db;
 
         private RepositoryCuenta? repositoryCuenta;
