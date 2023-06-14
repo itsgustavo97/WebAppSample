@@ -1,4 +1,5 @@
-﻿using Infrastructure.Models;
+﻿using Infrastructure.Contracts;
+using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppSample.Controllers
@@ -7,31 +8,18 @@ namespace WebAppSample.Controllers
     [Route("[controller]")]
     public class TransferenciaController : Controller
     {
+        private IUnitOfWork unitOfWork;
+        public TransferenciaController(IUnitOfWork _unitOfWork)
+        {
+            unitOfWork = _unitOfWork;
+        }
+
         [HttpGet]
         [Route("GetAll")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            List<Transferencia> tranfers = new()
-            {
-                new Transferencia()
-                {
-                    Id= 1,
-                    IdCuentaOrigen=1,
-                    IdCuentaDestino=3,
-                    Monto=25,
-                    Motivo="Prestamo amistoso"
-                },
-                new Transferencia()
-                {
-                    Id= 2,
-                    IdCuentaOrigen=3,
-                    IdCuentaDestino=2,
-                    Monto=25,
-                    Motivo="Prestamo amistoso 2"
-                }
-            };
+            var tranfers = await unitOfWork.RepositoryTransferencia.GetAllTransferenciasAsync();
             return Ok(tranfers);
-            //return Ok();
         }
 
         [HttpPost]
@@ -40,8 +28,6 @@ namespace WebAppSample.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var cuentOrigen = GetById(transfer.IdCuentaOrigen);
-            var cuentaDestino = GetById(transfer.IdCuentaDestino);
 
             return Ok();
         }

@@ -30,7 +30,6 @@ namespace WebAppSample.Controllers
             //    }
             //};
             return Ok(cuentas);
-            //return Ok();
         }
 
         [HttpPost]
