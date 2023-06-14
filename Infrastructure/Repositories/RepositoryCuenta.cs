@@ -1,19 +1,14 @@
 ﻿using Infrastructure.Contracts.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
     public class RepositoryCuenta : IRepositoryCuenta
     {
-        protected DBContext db;
+        private ApplicationContext db;
 
-        public RepositoryCuenta(DBContext context)
+        public RepositoryCuenta(ApplicationContext context)
         {
-            this.db = context;
+            this.db = context ?? throw new ArgumentNullException(nameof(context));
         }
     }
 }

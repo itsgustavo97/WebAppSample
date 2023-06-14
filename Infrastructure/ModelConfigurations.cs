@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using WebAppSample.Models;
+﻿using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
     public class ModelConfigurations
     {
-        public ModelConfigurations(DbModelBuilder builder)
+        public ModelConfigurations(ModelBuilder builder)
         {
             #region CuentaConfig
             builder.Entity<Cuenta>()

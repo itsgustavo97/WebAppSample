@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Repositories
+﻿namespace Infrastructure.Repositories
 {
     public class RepositoryTransferencia
     {
-        protected DBContext db;
+        private ApplicationContext db;
 
-        public RepositoryTransferencia(DBContext context)
+        public RepositoryTransferencia(ApplicationContext context)
         {
-            this.db = context;
+            this.db = context ?? throw new ArgumentNullException(nameof(context));
         }
     }
 }
