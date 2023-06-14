@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Contracts;
+using Infrastructure.Contracts.IRepositories;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -8,14 +9,14 @@ namespace Infrastructure
     {
         //Dependency injection
         private readonly ApplicationContext db;
-        private RepositoryCuenta? repositoryCuenta;
-        private RepositoryTransferencia? repositoryTransferencia;
+        private IRepositoryCuenta? repositoryCuenta;
+        private IRepositoryTransferencia? repositoryTransferencia;
         public UnitOfWork(ApplicationContext db)
         {
             this.db = db;
         }
 
-        public RepositoryCuenta RepositoryCuenta
+        public IRepositoryCuenta RepositoryCuenta
         {
             get
             {
@@ -26,7 +27,7 @@ namespace Infrastructure
             }
         }
 
-        public RepositoryTransferencia RepositoryTransferencia
+        public IRepositoryTransferencia RepositoryTransferencia
         {
             get
             {

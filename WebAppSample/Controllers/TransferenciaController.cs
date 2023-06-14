@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebAppSample.Models;
+﻿using Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppSample.Controllers
 {

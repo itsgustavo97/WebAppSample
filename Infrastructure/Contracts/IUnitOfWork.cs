@@ -1,12 +1,12 @@
-﻿using Infrastructure.Repositories;
+﻿using Infrastructure.Contracts.IRepositories;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
-        RepositoryCuenta RepositoryCuenta { get; }
-        RepositoryTransferencia RepositoryTransferencia { get; }
+        IRepositoryCuenta RepositoryCuenta { get; }
+        IRepositoryTransferencia RepositoryTransferencia { get; }
         Task<int> SaveChangeAsync();
         int SaveChange();
         Task<IDbContextTransaction> TransactionAsync();

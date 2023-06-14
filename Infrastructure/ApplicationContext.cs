@@ -16,8 +16,8 @@ namespace Infrastructure
             new ModelConfigurations(modelBuilder);
         }
 
-        public DbSet<Cuenta>? Cuenta { get; set; }
-        public DbSet<Transferencia>? Transferencia { get; set; }
+        public DbSet<Cuenta> Cuenta { get; set; }
+        public DbSet<Transferencia> Transferencia { get; set; }
 
     }
 }

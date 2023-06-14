@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebAppSample.Models;
+﻿using Infrastructure.Contracts;
+using Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppSample.Controllers
 {
@@ -7,48 +8,49 @@ namespace WebAppSample.Controllers
     [Route("[controller]")]
     public class CuentaController : Controller
     {
-        [HttpGet]
-        [Route("GetAll")]
-        public IActionResult GetAll()
+        private IUnitOfWork unitOfWork;
+
+        public CuentaController(IUnitOfWork _unitOfWork)
         {
-            List<Cuenta> cuentas= new()
-            {
-                new Cuenta()
-                {
-                    Id= 1,
-                    NumeroCuenta=3001,
-                    Saldo=125,
-                },
-                new Cuenta()
-                {
-                    Id= 1,
-                    NumeroCuenta=3002,
-                    Saldo=150,
-                },
-                new Cuenta()
-                {
-                    Id= 1,
-                    NumeroCuenta=3003,
-                    Saldo=200,
-                }
-            };
+            unitOfWork = _unitOfWork;
+        }
+
+        [HttpGet]
+        [Route("GetAllAsync")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var cuentas = await unitOfWork.RepositoryCuenta.GetAllCuentasAsync();
+            //List<Cuenta> cuentas= new()
+            //{
+            //    new Cuenta()
+            //    {
+            //        Id= 1,
+            //        NumeroCuenta=3001,
+            //        Saldo=125,
+            //    }
+            //};
             return Ok(cuentas);
             //return Ok();
         }
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create()
+        public IActionResult Create(Cuenta model)
         {
+            unitOfWork.RepositoryCuenta.InsertCuenta(model);
             return Ok();
         }
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(long? Id)
+        public async Task<IActionResult> Update(Cuenta model)
         {
-            if (Id == null)
-                return NotFound();
+            if (model.Id == null)
+                return BadRequest();
+            var cuentaUpdate = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.Id);
+            cuentaUpdate.NumeroCuenta = model.NumeroCuenta;
+            cuentaUpdate.Saldo = model.Saldo;
+            unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaUpdate);
             return Ok();
         }
 
@@ -57,7 +59,8 @@ namespace WebAppSample.Controllers
         public IActionResult GetById(long? Id)
         {
             if(Id == null)
-                return NotFound();
+                return BadRequest();
+
             return Ok();
         }
     }

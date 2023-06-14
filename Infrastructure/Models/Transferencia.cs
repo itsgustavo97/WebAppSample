@@ -7,5 +7,8 @@
         public long IdCuentaDestino { get; set; }
         public decimal Monto { get; set; }
         public string? Motivo { get; set; }
+
+        //public Cuenta? CuentaOrigen { get; set; }
+        //public Cuenta? CuentaDestino { get; set; }
     }
 }

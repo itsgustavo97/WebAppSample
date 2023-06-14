@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,9 @@ namespace Infrastructure.Contracts.IRepositories
 {
     public interface IRepositoryTransferencia
     {
+        Task<List<Transferencia>> GetAllTransferenciasAsync();
+        Task<Transferencia> GetTransferenciaByIdAsync(long Id);
+        void InsertTransferencia(Transferencia model);
+        void UpdateCuenta(Transferencia model);
     }
 }
