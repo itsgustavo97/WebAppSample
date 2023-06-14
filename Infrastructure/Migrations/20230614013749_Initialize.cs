@@ -12,7 +12,7 @@ namespace Infrastructure.Migrations
                 name: "Cuenta",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false) 
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumeroCuenta = table.Column<long>(type: "bigint", nullable: false),
                     Saldo = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
