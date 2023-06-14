@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
             db.Entry(model).State= EntityState.Modified;
         }
 
-        public async Task<Cuenta> GetCuentaByIdAsync(long Id)
+        public async Task<Cuenta> GetCuentaByIdAsync(long? Id)
         {
             var cuenta = await db.Cuenta.FindAsync(Id);
             return cuenta ?? throw new Exception();

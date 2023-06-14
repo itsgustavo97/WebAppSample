@@ -10,7 +10,7 @@ namespace Infrastructure.Contracts.IRepositories
     public interface IRepositoryCuenta
     {
         Task<List<Cuenta>> GetAllCuentasAsync();
-        Task<Cuenta> GetCuentaByIdAsync(long Id);
+        Task<Cuenta> GetCuentaByIdAsync(long? Id);
         void InsertCuenta(Cuenta model);
         void UpdateCuenta(Cuenta model);
     }

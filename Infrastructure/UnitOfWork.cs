@@ -9,12 +9,12 @@ namespace Infrastructure
     {
         //Dependency injection
         private readonly ApplicationContext db;
-        private IRepositoryCuenta? repositoryCuenta;
-        private IRepositoryTransferencia? repositoryTransferencia;
         public UnitOfWork(ApplicationContext db)
         {
             this.db = db;
         }
+        private IRepositoryCuenta? repositoryCuenta;
+        private IRepositoryTransferencia? repositoryTransferencia;
 
         public IRepositoryCuenta RepositoryCuenta =>
             repositoryCuenta ??= new RepositoryCuenta(db);

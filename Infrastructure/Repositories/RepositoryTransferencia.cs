@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
             db.Entry(model).State = EntityState.Modified;
         }
 
-        public async Task<Transferencia> GetTransferenciaByIdAsync(long Id)
+        public async Task<Transferencia> GetTransferenciaByIdAsync(long? Id)
         {
             var transfer = await db.Transferencia.FindAsync(Id);
             return transfer ?? throw new Exception();

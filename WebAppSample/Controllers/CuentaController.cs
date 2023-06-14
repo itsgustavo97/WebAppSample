@@ -20,15 +20,6 @@ namespace WebAppSample.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var cuentas = await unitOfWork.RepositoryCuenta.GetAllCuentasAsync();
-            //List<Cuenta> cuentas= new()
-            //{
-            //    new Cuenta()
-            //    {
-            //        Id= 1,
-            //        NumeroCuenta=3001,
-            //        Saldo=125,
-            //    }
-            //};
             return Ok(cuentas);
         }
 
@@ -36,7 +27,10 @@ namespace WebAppSample.Controllers
         [Route("Create")]
         public IActionResult Create(Cuenta model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             unitOfWork.RepositoryCuenta.InsertCuenta(model);
+            unitOfWork.SaveChange();
             return Ok();
         }
 
@@ -55,12 +49,12 @@ namespace WebAppSample.Controllers
 
         [HttpGet]
         [Route("GetById/{Id}")]
-        public IActionResult GetById(long? Id)
+        public async Task<IActionResult> GetById(long? Id)
         {
             if(Id == null)
                 return BadRequest();
-
-            return Ok();
+            var cuenta = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(Id);
+            return Ok(cuenta);
         }
     }
 }

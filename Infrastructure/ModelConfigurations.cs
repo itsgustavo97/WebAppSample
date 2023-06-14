@@ -11,6 +11,7 @@ namespace Infrastructure
             builder.Entity<Cuenta>().Property(e => e.Id).IsRequired();
             builder.Entity<Cuenta>().Property(e => e.NumeroCuenta).IsRequired();
             builder.Entity<Cuenta>().Property(e => e.Saldo).IsRequired();
+            //builder.Entity<Cuenta>().HasMany(e => e.Transferencias).WithOne(e => e.IdCuentaOrigen);
             #endregion
 
             #region TransferenciaConfig
