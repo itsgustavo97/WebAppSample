@@ -16,26 +16,12 @@ namespace Infrastructure
             this.db = db;
         }
 
-        public IRepositoryCuenta RepositoryCuenta
-        {
-            get
-            {
-                if (repositoryCuenta is null)
-                    repositoryCuenta = new RepositoryCuenta(db);
-                return repositoryCuenta;
+        public IRepositoryCuenta RepositoryCuenta =>
+            repositoryCuenta ??= new RepositoryCuenta(db);
 
-            }
-        }
 
-        public IRepositoryTransferencia RepositoryTransferencia
-        {
-            get
-            {
-                if(repositoryTransferencia is null)
-                    repositoryTransferencia = new RepositoryTransferencia(db);
-                return repositoryTransferencia;
-            }
-        }
+        public IRepositoryTransferencia RepositoryTransferencia =>
+            repositoryTransferencia ??= new RepositoryTransferencia(db);
 
         public void Dispose() => db.Dispose();
         public int SaveChange() => db.SaveChanges();
