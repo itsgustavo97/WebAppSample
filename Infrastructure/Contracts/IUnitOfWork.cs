@@ -5,6 +5,7 @@ namespace Infrastructure.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
+        IRepositoryCliente RepositoryCliente { get; }
         IRepositoryCuenta RepositoryCuenta { get; }
         IRepositoryTransferencia RepositoryTransferencia { get; }
         Task<int> SaveChangeAsync();

@@ -15,10 +15,13 @@ namespace Infrastructure
         }
         private IRepositoryCuenta? repositoryCuenta;
         private IRepositoryTransferencia? repositoryTransferencia;
+        private IRepositoryCliente? repositoryCliente;
+
+        public IRepositoryCliente RepositoryCliente =>
+            repositoryCliente ??= new RepositoryCliente(db);
 
         public IRepositoryCuenta RepositoryCuenta =>
             repositoryCuenta ??= new RepositoryCuenta(db);
-
 
         public IRepositoryTransferencia RepositoryTransferencia =>
             repositoryTransferencia ??= new RepositoryTransferencia(db);

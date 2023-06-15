@@ -22,6 +22,16 @@ namespace Infrastructure
             builder.Entity<Transferencia>().Property(e => e.Monto).IsRequired();
             builder.Entity<Transferencia>().Property(e => e.Motivo).IsRequired().HasMaxLength(100);
             #endregion
+
+            #region ClienteConfig
+            builder.Entity<Cliente>().Property(e => e.Id).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.Nombre).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.Apellido).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.Edad).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.Direccion).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.NumeroTelefonico).IsRequired();
+            builder.Entity<Cliente>().Property(e => e.CorreoElectronico).IsRequired();
+            #endregion
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Infrastructure
             new ModelConfigurations(modelBuilder);
         }
 
+        public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Cuenta> Cuenta { get; set; }
         public DbSet<Transferencia> Transferencia { get; set; }
 
