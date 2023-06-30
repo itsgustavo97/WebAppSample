@@ -18,7 +18,10 @@ builder.Services.AddScoped<IRepositoryTransferencia, RepositoryTransferencia>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("politica", x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -30,7 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
+app.UseCors("politica");
 app.MapControllers();
 
 app.Run();
