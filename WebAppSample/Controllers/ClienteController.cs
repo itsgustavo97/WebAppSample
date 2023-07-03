@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Contracts;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WebAppSample.Controllers
 {
@@ -25,19 +27,19 @@ namespace WebAppSample.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(Cliente model)
+        public IActionResult Create([FromBody] Cliente model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             unitOfWork.RepositoryCliente.Insert(model);
-            unitOfWork.SaveChange();
-            return Ok();
+            return Ok(unitOfWork.SaveChange());
         }
 
         [HttpPut]
         [Route("Update")]
-        public async Task<IActionResult> Update(Cliente model)
+        public async Task<IActionResult> Update([FromBody] Cliente model)
         {
+            //model = JsonSerializer.Deserialize<Cliente>(model);
             if (model.Id == null)
                 return BadRequest();
             var clienteUpdate = await unitOfWork.RepositoryCliente.GetByIdAsync(model.Id);
@@ -48,7 +50,7 @@ namespace WebAppSample.Controllers
             clienteUpdate.NumeroTelefonico = model.NumeroTelefonico;
             clienteUpdate.CorreoElectronico = model.CorreoElectronico;
             unitOfWork.RepositoryCliente.Update(clienteUpdate);
-            return Ok();
+            return Ok(unitOfWork.SaveChange());
         }
 
         [HttpGet]

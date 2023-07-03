@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationContext>(opt =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRepositoryCuenta, RepositoryCuenta>();
 builder.Services.AddScoped<IRepositoryTransferencia, RepositoryTransferencia>();
+builder.Services.AddScoped<IRepositoryCliente, RepositoryCliente>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
