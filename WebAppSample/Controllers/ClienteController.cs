@@ -40,8 +40,8 @@ namespace WebAppSample.Controllers
         public async Task<IActionResult> Update([FromBody] Cliente model)
         {
             //model = JsonSerializer.Deserialize<Cliente>(model);
-            if (model.Id == null)
-                return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var clienteUpdate = await unitOfWork.RepositoryCliente.GetByIdAsync(model.Id);
             clienteUpdate.Nombre = model.Nombre;
             clienteUpdate.Apellido = model.Apellido;
