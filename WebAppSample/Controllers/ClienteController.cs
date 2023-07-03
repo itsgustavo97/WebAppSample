@@ -27,12 +27,12 @@ namespace WebAppSample.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create([FromBody] Cliente model)
+        public async Task<IActionResult> Create([FromBody] Cliente model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             unitOfWork.RepositoryCliente.Insert(model);
-            return Ok(unitOfWork.SaveChange());
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpPut]
@@ -50,7 +50,7 @@ namespace WebAppSample.Controllers
             clienteUpdate.NumeroTelefonico = model.NumeroTelefonico;
             clienteUpdate.CorreoElectronico = model.CorreoElectronico;
             unitOfWork.RepositoryCliente.Update(clienteUpdate);
-            return Ok(unitOfWork.SaveChange());
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpGet]
