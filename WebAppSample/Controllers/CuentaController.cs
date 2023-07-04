@@ -25,26 +25,25 @@ namespace WebAppSample.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(Cuenta model)
+        public async Task<IActionResult> Create([FromBody] Cuenta model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             unitOfWork.RepositoryCuenta.InsertCuenta(model);
-            unitOfWork.SaveChange();
-            return Ok();
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpPut]
         [Route("Update")]
-        public async Task<IActionResult> Update(Cuenta model)
+        public async Task<IActionResult> Update([FromBody] Cuenta model)
         {
-            if (model.Id == null)
-                return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var cuentaUpdate = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.Id);
             cuentaUpdate.NumeroCuenta = model.NumeroCuenta;
             cuentaUpdate.Saldo = model.Saldo;
             unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaUpdate);
-            return Ok();
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpGet]

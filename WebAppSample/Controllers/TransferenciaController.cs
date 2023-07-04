@@ -24,24 +24,22 @@ namespace WebAppSample.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(Transferencia model)
+        public async Task<IActionResult> Create([FromBody] Transferencia model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             unitOfWork.RepositoryTransferencia.InsertTransferencia(model);
-            unitOfWork.SaveChange();
-            return Ok();
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(Transferencia model)
+        public async Task<IActionResult> Update([FromBody] Transferencia model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             unitOfWork.RepositoryTransferencia.UpdateCuenta(model);
-            unitOfWork.SaveChange();
-            return Ok();
+            return Ok(await unitOfWork.SaveChangeAsync());
         }
 
         [HttpGet]
@@ -63,9 +61,8 @@ namespace WebAppSample.Controllers
                 try
                 {
                     if (!ModelState.IsValid)
-                    {
                         return BadRequest(ModelState);
-                    }
+
                     var cuentaOrigen = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.IdCuentaOrigen);
                     cuentaOrigen.Saldo = cuentaOrigen.Saldo - model.Monto;
                     unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaOrigen);
@@ -79,7 +76,7 @@ namespace WebAppSample.Controllers
                     unitOfWork.RepositoryTransferencia.InsertTransferencia(model);
                     await unitOfWork.SaveChangeAsync();
                     await transac.CommitAsync();
-                    return Ok();
+                    return Ok(true);
                 }
                 catch (Exception ex)
                 {
