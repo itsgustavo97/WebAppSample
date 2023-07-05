@@ -27,25 +27,68 @@ namespace WebAppSample.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create([FromBody] Transferencia model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            unitOfWork.RepositoryTransferencia.InsertTransferencia(model);
-            return Ok(await unitOfWork.SaveChangeAsync());
+            using (var transac = await unitOfWork.TransactionAsync())
+            {
+                try
+                {
+                    if (!ModelState.IsValid)
+                        return BadRequest(ModelState);
+
+                    var cuentaOrigen = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.IdCuentaOrigen);
+                    cuentaOrigen.Saldo = cuentaOrigen.Saldo - model.Monto;
+                    unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaOrigen);
+                    await unitOfWork.SaveChangeAsync();
+
+                    var cuentaDestino = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.IdCuentaDestino);
+                    cuentaDestino.Saldo = cuentaDestino.Saldo + model.Monto;
+                    unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaDestino);
+                    await unitOfWork.SaveChangeAsync();
+
+                    unitOfWork.RepositoryTransferencia.InsertTransferencia(model);
+                    await unitOfWork.SaveChangeAsync();
+                    await transac.CommitAsync();
+                    return Ok(true);
+                }
+                catch (Exception ex)
+                {
+                    await transac.RollbackAsync();
+                    return BadRequest(ex);
+                }
+            }
         }
 
         [HttpPut]
         [Route("Update")]
         public async Task<IActionResult> Update([FromBody] Transferencia model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var transferUpdate = await unitOfWork.RepositoryTransferencia.GetTransferenciaByIdAsync(model.Id);
-            transferUpdate.IdCuentaOrigen = model.IdCuentaOrigen;
-            transferUpdate.IdCuentaDestino = model.IdCuentaDestino;
-            transferUpdate.Monto = model.Monto;
-            transferUpdate.Motivo = model.Motivo;
-            unitOfWork.RepositoryTransferencia.UpdateCuenta(transferUpdate);
-            return Ok(await unitOfWork.SaveChangeAsync());
+            using (var transac = await unitOfWork.TransactionAsync())
+            {
+                try
+                {
+                    if (!ModelState.IsValid)
+                        return BadRequest(ModelState);
+
+                    var cuentaOrigen = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.IdCuentaOrigen);
+                    cuentaOrigen.Saldo = cuentaOrigen.Saldo - model.Monto;
+                    unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaOrigen);
+                    await unitOfWork.SaveChangeAsync();
+
+                    var cuentaDestino = await unitOfWork.RepositoryCuenta.GetCuentaByIdAsync(model.IdCuentaDestino);
+                    cuentaDestino.Saldo = cuentaDestino.Saldo + model.Monto;
+                    unitOfWork.RepositoryCuenta.UpdateCuenta(cuentaDestino);
+                    await unitOfWork.SaveChangeAsync();
+
+                    unitOfWork.RepositoryTransferencia.UpdateTransferencia(model);
+                    await unitOfWork.SaveChangeAsync();
+                    await transac.CommitAsync();
+                    return Ok(true);
+                }
+                catch (Exception ex)
+                {
+                    await transac.RollbackAsync();
+                    return BadRequest(ex);
+                }
+            }
         }
 
         [HttpGet]

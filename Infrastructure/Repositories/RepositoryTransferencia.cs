@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
             db.Transferencia.Add(model);
         }
 
-        public void UpdateCuenta(Transferencia model)
+        public void UpdateTransferencia(Transferencia model)
         {
             db.Entry(model).State = EntityState.Modified;
         }

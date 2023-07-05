@@ -12,6 +12,6 @@ namespace Infrastructure.Contracts.IRepositories
         Task<List<Transferencia>> GetAllTransferenciasAsync();
         Task<Transferencia> GetTransferenciaByIdAsync(long? Id);
         void InsertTransferencia(Transferencia model);
-        void UpdateCuenta(Transferencia model);
+        void UpdateTransferencia(Transferencia model);
     }
 }
