@@ -9,6 +9,7 @@ namespace WebAppSample.Controllers
     public class TransferenciaController : Controller
     {
         private IUnitOfWork unitOfWork;
+
         public TransferenciaController(IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
@@ -38,7 +39,12 @@ namespace WebAppSample.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            unitOfWork.RepositoryTransferencia.UpdateCuenta(model);
+            var transferUpdate = await unitOfWork.RepositoryTransferencia.GetTransferenciaByIdAsync(model.Id);
+            transferUpdate.IdCuentaOrigen = model.IdCuentaOrigen;
+            transferUpdate.IdCuentaDestino = model.IdCuentaDestino;
+            transferUpdate.Monto = model.Monto;
+            transferUpdate.Motivo = model.Motivo;
+            unitOfWork.RepositoryTransferencia.UpdateCuenta(transferUpdate);
             return Ok(await unitOfWork.SaveChangeAsync());
         }
 
