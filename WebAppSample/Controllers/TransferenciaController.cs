@@ -15,8 +15,8 @@ namespace WebAppSample.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [Route("GetAllAsync")]
+        public async Task<IActionResult> GetAllAsync()
         {
             var tranfers = await unitOfWork.RepositoryTransferencia.GetAllTransferenciasAsync();
             return Ok(tranfers);
